@@ -41,13 +41,13 @@ public class DroneService implements IDroneService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public Drone save(Drone drone) {
         return droneRepository.save(drone);
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public void delete(Long id) {
         droneRepository.deleteById(id);
     }
