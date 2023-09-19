@@ -17,7 +17,7 @@ public class Medication {
     private long medid;
     @NotBlank(message = "Name is mandatory")
     @Column(unique = true)
-    @Pattern(regexp = "([a-z]|[A-Z]|[0-9]|-|_)*$")
+    @Pattern(regexp = "(\\w|-|_)*$")
     private String name;//allowed only letters, numbers, ‘-‘, ‘_’
     @Positive
     private float weight;
