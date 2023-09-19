@@ -34,7 +34,7 @@ public class DispatchController {
         return ResponseEntity.ok(droneService.listDrones());
     }
 
-    @GetMapping("/{droneSerialNumber}/meds")
+    @GetMapping("/meds/{droneSerialNumber}")
     public ResponseEntity<?> getDroneMedications(@PathVariable String droneSerialNumber) {
         Optional<Drone> droneDb = droneService.bySerialNumber(droneSerialNumber);
         if (droneDb.isEmpty()) return ResponseEntity.notFound().build();
