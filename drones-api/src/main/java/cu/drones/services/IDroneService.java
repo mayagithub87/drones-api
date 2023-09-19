@@ -20,4 +20,5 @@ public interface IDroneService {
 
     void delete(Long id);
 
+    List<Drone> listDronesForLoading();
 }

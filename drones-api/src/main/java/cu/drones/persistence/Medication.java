@@ -1,5 +1,6 @@
 package cu.drones.persistence;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
@@ -12,7 +13,7 @@ public class Medication {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private long medid;
     @NotBlank(message = "Name is mandatory")
     @Column(unique = true)
     private String name;//allowed only letters, numbers, ‘-‘, ‘_’
@@ -23,5 +24,9 @@ public class Medication {
     private String code;//allowed only upper case letters, underscore and numbers
     @NotBlank
     private byte[] image;
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "droneid", nullable = false)
+    private Drone drone;
 
 }

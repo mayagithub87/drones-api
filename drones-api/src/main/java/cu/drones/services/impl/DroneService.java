@@ -16,6 +16,7 @@ public class DroneService implements IDroneService {
 
     @Autowired
     private DroneRepository droneRepository;
+
     @Override
     @Transactional(readOnly = true)
     public List<Drone> listDrones() {
@@ -50,5 +51,13 @@ public class DroneService implements IDroneService {
     @Transactional
     public void delete(Long id) {
         droneRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Drone> listDronesForLoading() {
+        List<Drone> idle = droneRepository.findAllByState(State.IDLE);
+        List<Drone> loaded = droneRepository.findAllByState(State.LOADED);
+        idle.addAll(loaded);
+        return idle;
     }
 }
