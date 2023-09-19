@@ -48,7 +48,7 @@ public class DispatchController {
         return ResponseEntity.ok(droneService.listDronesForLoading());
     }
 
-    @GetMapping("/{droneSerialNumber}/battery/")
+    @GetMapping("/battery//{droneSerialNumber}")
     public ResponseEntity<?> getDroneBatteryLevel(@PathVariable String droneSerialNumber) {
         Optional<Drone> droneDb = droneService.bySerialNumber(droneSerialNumber);
         if (droneDb.isEmpty()) return ResponseEntity.notFound().build();
@@ -76,7 +76,7 @@ public class DispatchController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedb);
     }
 
-    @PostMapping("/{droneSerialNumber}/meds")
+    @PostMapping("/meds/{droneSerialNumber}")
     public ResponseEntity<?> loadMedications(@Valid @RequestBody List<Medication> medications, BindingResult result, @PathVariable String droneSerialNumber) {
         if (result.hasErrors()) return validate(result);
 
