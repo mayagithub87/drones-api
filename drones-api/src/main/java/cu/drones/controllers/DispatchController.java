@@ -48,6 +48,15 @@ public class DispatchController {
         return ResponseEntity.ok(droneService.listDronesForLoading());
     }
 
+    @GetMapping("/battery/{droneSerialNumber}")
+    public ResponseEntity<?> getDroneBatteryLevel(@PathVariable String droneSerialNumber) {
+        Optional<Drone> droneDb = droneService.bySerialNumber(droneSerialNumber);
+        if (droneDb.isEmpty()) return ResponseEntity.notFound().build();
+
+        Drone drone = droneDb.get();
+        return ResponseEntity.ok(drone.getBatteryLevel());
+    }
+
     @PostMapping
     public ResponseEntity<?> save(@Valid @RequestBody Drone drone, BindingResult result) {
         if (result.hasErrors()) return validate(result);
@@ -87,7 +96,7 @@ public class DispatchController {
                 droneService.setDroneStatus(drone, State.LOADING);
             }
         }
-        if (drone.getBatteryCapacity() < 25) {
+        if (drone.getBatteryLevel() < 25) {
             droneService.setDroneStatus(drone, State.IDLE);
             result.addError(new ObjectError("drone", "Can't load drone with medications 'cause battery capacity is lower than 25 percent"));
             return validate(result);

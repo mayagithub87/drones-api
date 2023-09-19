@@ -28,7 +28,8 @@ public class Drone {
     private Model model;
     @Max(500)
     private float weight;//500gr max
-    private float batteryCapacity;//percentage
+    @Max(100)
+    private float batteryLevel;//percentage
     @NotNull
     private State state;
 
