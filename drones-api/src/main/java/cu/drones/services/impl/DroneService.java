@@ -60,4 +60,12 @@ public class DroneService implements IDroneService {
         idle.addAll(loaded);
         return idle;
     }
+
+    @Override
+    public void setDroneStatus(Drone drone, State state) {
+        if (drone != null) {
+            drone.setState(state);
+            this.setDroneStatus(drone, state);
+        }
+    }
 }
