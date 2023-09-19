@@ -3,6 +3,7 @@ package cu.drones.persistence;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
 
@@ -16,6 +17,7 @@ public class Medication {
     private long medid;
     @NotBlank(message = "Name is mandatory")
     @Column(unique = true)
+    @Pattern(regexp = "([a-z]|[A-Z]|[0-9]|-|_)*$")
     private String name;//allowed only letters, numbers, ‘-‘, ‘_’
     @Positive
     private float weight;
