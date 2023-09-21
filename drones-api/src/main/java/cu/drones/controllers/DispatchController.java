@@ -76,6 +76,22 @@ public class DispatchController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedb);
     }
 
+    @PutMapping("/{droneSerialNumber}")
+    public ResponseEntity<?> save(@Valid @RequestBody Drone drone, BindingResult result, @PathVariable String droneSerialNumber) {
+        if (result.hasErrors()) return validate(result);
+
+        Optional<Drone> droneDb = droneService.bySerialNumber(droneSerialNumber);
+        if (droneDb.isEmpty()) return ResponseEntity.notFound().build();
+
+        if (!drone.getModel().isModelValid(drone.getWeight())) {
+            result.addError(new ObjectError("model and weight", "Model and weight value doesn't match"));
+            return validate(result);
+        }
+
+        Drone savedb = droneService.save(drone);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedb);
+    }
+
     @PostMapping("/meds/{droneSerialNumber}")
     public ResponseEntity<?> loadMedications(@Valid @RequestBody List<Medication> medications, BindingResult result, @PathVariable String droneSerialNumber) {
         if (result.hasErrors()) return validate(result);
@@ -93,22 +109,16 @@ public class DispatchController {
                 return validate(result);
             }
             default -> {
-                droneService.setDroneStatus(drone, State.LOADING);
+                if (drone.getBatteryLevel() <= 25) {
+                    droneService.setDroneStatus(drone, State.IDLE);
+                    result.addError(new ObjectError("drone", "Can't load drone with medications 'cause battery capacity is lower than 25 percent"));
+                    return validate(result);
+                }
+                drone = droneService.setDroneStatus(drone, State.LOADING);
             }
-        }
-        if (drone.getBatteryLevel() < 25) {
-            droneService.setDroneStatus(drone, State.IDLE);
-            result.addError(new ObjectError("drone", "Can't load drone with medications 'cause battery capacity is lower than 25 percent"));
-            return validate(result);
         }
 
         List<Medication> medicationList = drone.getMedicationList();
-        if (medicationList.isEmpty()) {
-            droneService.setDroneStatus(drone, State.IDLE);
-            result.addError(new ObjectError("medications", "Specified medications exceeds drone's capacity"));
-            return validate(result);
-        }
-
         float droneWeight = drone.getWeight();
         final float[] totalWeight = {0, 0};
         medicationList.forEach(medication -> {
@@ -122,12 +132,13 @@ public class DispatchController {
             result.addError(new ObjectError("medications", "Specified medications exceeds drone's capacity"));
             return validate(result);
         } else {
+            Drone finalDrone = drone;
             medications.forEach(medication -> {
-                medication.setDrone(drone);
+                medication.setDrone(finalDrone);
                 medicationService.save(medication);
             });
             droneService.setDroneStatus(drone, State.LOADED);
-            return ResponseEntity.status(HttpStatus.OK).build();
+            return ResponseEntity.status(HttpStatus.CREATED).build();
         }
     }
 

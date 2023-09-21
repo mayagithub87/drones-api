@@ -22,5 +22,5 @@ public interface IDroneService {
 
     List<Drone> listDronesForLoading();
 
-    void setDroneStatus(Drone drone, State state);
+    Drone setDroneStatus(Drone drone, State state);
 }

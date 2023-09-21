@@ -1,7 +1,7 @@
 package cu.drones.services.impl;
 
-import cu.drones.persistence.model.State;
 import cu.drones.persistence.Drone;
+import cu.drones.persistence.model.State;
 import cu.drones.repositories.DroneRepository;
 import cu.drones.services.IDroneService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,10 +62,11 @@ public class DroneService implements IDroneService {
     }
 
     @Override
-    public void setDroneStatus(Drone drone, State state) {
+    public Drone setDroneStatus(Drone drone, State state) {
         if (drone != null) {
             drone.setState(state);
-            this.setDroneStatus(drone, state);
+            return this.save(drone);
         }
+        return null;
     }
 }

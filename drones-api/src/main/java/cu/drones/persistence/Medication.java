@@ -24,7 +24,6 @@ public class Medication {
     @NotBlank(message = "Code is mandatory, upper case letters, underscore and numbers")
     @Column(unique = true)
     private String code;//allowed only upper case letters, underscore and numbers
-    @NotBlank
     private byte[] image;
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
