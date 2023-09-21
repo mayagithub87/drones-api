@@ -1,4 +1,4 @@
-package cu.drones.repositories;
+package cu.drones.persistence.repositories;
 
 import cu.drones.persistence.Drone;
 import cu.drones.persistence.Medication;

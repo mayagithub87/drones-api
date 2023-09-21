@@ -1,7 +1,7 @@
 package cu.drones.services.impl;
 
 import cu.drones.persistence.Log;
-import cu.drones.repositories.LogRepository;
+import cu.drones.persistence.repositories.LogRepository;
 import cu.drones.services.ILogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

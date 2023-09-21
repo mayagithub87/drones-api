@@ -2,7 +2,7 @@ package cu.drones.services.impl;
 
 import cu.drones.persistence.Drone;
 import cu.drones.persistence.model.State;
-import cu.drones.repositories.DroneRepository;
+import cu.drones.persistence.repositories.DroneRepository;
 import cu.drones.services.IDroneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

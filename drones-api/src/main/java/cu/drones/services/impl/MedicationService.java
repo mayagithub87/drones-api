@@ -2,7 +2,7 @@ package cu.drones.services.impl;
 
 import cu.drones.persistence.Drone;
 import cu.drones.persistence.Medication;
-import cu.drones.repositories.MedicationRepository;
+import cu.drones.persistence.repositories.MedicationRepository;
 import cu.drones.services.IMedicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
