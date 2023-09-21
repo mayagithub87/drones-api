@@ -1,24 +1,17 @@
 package cu.drones.crons;
 
 import cu.drones.persistence.Drone;
-import cu.drones.persistence.Log;
-import cu.drones.repositories.LogRepository;
 import cu.drones.services.impl.DroneService;
 import cu.drones.services.impl.LogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-
 @Component
 public class DroneBatteryLevelWatcher {
 
     @Autowired
     private LogService logService;
-
-    @Autowired
-    LogRepository logRepository;
 
     @Autowired
     private DroneService droneService;
@@ -38,9 +31,6 @@ public class DroneBatteryLevelWatcher {
                 logService.logMessage("Drone %s battery level is %d%%".formatted(drone.getSerialNumber(), drone.getBatteryLevel()));
                 droneService.save(drone);
             }
-
-            ArrayList<Log> all = (ArrayList<Log>) logRepository.findAll();
-            System.err.println(all);
 
         }
     }
