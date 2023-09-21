@@ -34,7 +34,15 @@ public class Drone {
     @NotNull
     private State state;
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "drone")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "drone", fetch = FetchType.EAGER)
     private List<Medication> medicationList = new ArrayList<>();
 
+    public boolean hasAvailableWeightForLoading() {
+        if (medicationList.isEmpty()) return true;
+        else {
+            final float[] totalWeight = {0};
+            medicationList.forEach(medication -> totalWeight[0] += medication.getWeight());
+            return (totalWeight[0] < weight);
+        }
+    }
 }
