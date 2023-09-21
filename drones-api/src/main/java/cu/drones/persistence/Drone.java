@@ -30,7 +30,7 @@ public class Drone {
     @Max(500)
     private float weight;//500gr max
     @Max(100)
-    private float batteryLevel;//percentage
+    private int batteryLevel;//percentage
     @NotNull
     private State state;
     @JsonIgnore
