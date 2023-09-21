@@ -121,12 +121,8 @@ public class DispatchController {
         List<Medication> medicationList = drone.getMedicationList();
         float droneWeight = drone.getWeight();
         final float[] totalWeight = {0, 0};
-        medicationList.forEach(medication -> {
-            totalWeight[0] += medication.getWeight();
-        });
-        medications.forEach(medication -> {
-            totalWeight[1] += medication.getWeight();
-        });
+        medicationList.forEach(medication -> totalWeight[0] += medication.getWeight());
+        medications.forEach(medication -> totalWeight[1] += medication.getWeight());
         if (totalWeight[0] + totalWeight[1] > droneWeight) {
             droneService.setDroneStatus(drone, State.IDLE);
             result.addError(new ObjectError("medications", "Specified medications exceeds drone's capacity"));
