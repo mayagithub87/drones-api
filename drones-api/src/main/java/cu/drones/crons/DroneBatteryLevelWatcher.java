@@ -1,6 +1,7 @@
 package cu.drones.crons;
 
 import cu.drones.persistence.Drone;
+import cu.drones.persistence.model.State;
 import cu.drones.services.impl.DroneService;
 import cu.drones.services.impl.LogService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +27,12 @@ public class DroneBatteryLevelWatcher {
         if (!droneService.listDrones().isEmpty()) {
 
             for (Drone drone : droneService.listDrones()) {
-                if (drone.getBatteryLevel() > 0) drone.setBatteryLevel(drone.getBatteryLevel() - 1);
-                else drone.setBatteryLevel(100);
-                logService.logMessage("Drone %s battery level is %d%%".formatted(drone.getSerialNumber(), drone.getBatteryLevel()));
-                droneService.save(drone);
+                if (drone.getState() != State.IDLE) {
+                    if (drone.getBatteryLevel() > 0) drone.setBatteryLevel(drone.getBatteryLevel() - 1);
+                    else drone.setBatteryLevel(100);
+                    logService.logMessage("Drone %s battery level is %d%%".formatted(drone.getSerialNumber(), drone.getBatteryLevel()));
+                    droneService.save(drone);
+                }
             }
 
         }
