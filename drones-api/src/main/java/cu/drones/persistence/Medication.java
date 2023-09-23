@@ -23,6 +23,7 @@ public class Medication {
     private float weight;
     @NotBlank(message = "Code is mandatory, upper case letters, underscore and numbers")
     @Column(unique = true)
+    @Pattern(regexp = "([A-Z]|[0-9]|_)*$")
     private String code;//allowed only upper case letters, underscore and numbers
     private byte[] image;
     @JsonIgnore
