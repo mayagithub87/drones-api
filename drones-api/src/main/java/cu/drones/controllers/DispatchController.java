@@ -61,6 +61,11 @@ public class DispatchController {
     public ResponseEntity<?> save(@Valid @RequestBody Drone drone, BindingResult result) {
         if (result.hasErrors()) return validate(result);
 
+        if (droneService.listDrones().size() == 10) {
+            result.addError(new ObjectError("fleet complete", "The fleet can handle only 10 drones"));
+            return validate(result);
+        }
+
         if (!drone.getModel().isModelValid(drone.getWeight())) {
             result.addError(new ObjectError("model and weight", "Model and weight value doesn't match"));
             return validate(result);
