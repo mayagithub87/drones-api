@@ -37,6 +37,17 @@ public class Drone {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "drone", fetch = FetchType.EAGER)
     private List<Medication> medicationList = new ArrayList<>();
 
+    public Drone() {
+    }
+
+    public Drone(String serialNumber, Model model, float weight, int batteryLevel, State state) {
+        this.serialNumber = serialNumber;
+        this.model = model;
+        this.weight = weight;
+        this.batteryLevel = batteryLevel;
+        this.state = state;
+    }
+
     public boolean hasAvailableWeightForLoading() {
         if (medicationList.isEmpty()) return true;
         else {

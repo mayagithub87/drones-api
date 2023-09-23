@@ -133,8 +133,7 @@ public class DispatchController {
                 medication.setDrone(finalDrone);
                 medicationService.save(medication);
             });
-            droneService.setDroneStatus(drone, State.LOADED);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            return ResponseEntity.status(HttpStatus.CREATED).body(droneService.setDroneStatus(drone, State.LOADED));
         }
     }
 

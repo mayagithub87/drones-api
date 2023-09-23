@@ -2,6 +2,7 @@ package cu.drones.services;
 
 import cu.drones.persistence.Drone;
 import cu.drones.persistence.Medication;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,4 +19,6 @@ public interface IMedicationService {
 
     void delete(Long id);
 
+    @Transactional
+    void delete(Medication medication);
 }

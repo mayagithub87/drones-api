@@ -46,4 +46,10 @@ public class MedicationService implements IMedicationService {
     public void delete(Long id) {
         medicationRepository.deleteById(id);
     }
+
+    @Override
+    @Transactional
+    public void delete(Medication medication) {
+        medicationRepository.delete(medication);
+    }
 }

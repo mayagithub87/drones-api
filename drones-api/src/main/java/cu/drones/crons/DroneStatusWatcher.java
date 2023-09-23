@@ -1,9 +1,11 @@
 package cu.drones.crons;
 
 import cu.drones.persistence.Drone;
+import cu.drones.persistence.Medication;
 import cu.drones.persistence.model.State;
 import cu.drones.services.impl.DroneService;
 import cu.drones.services.impl.LogService;
+import cu.drones.services.impl.MedicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -17,6 +19,9 @@ public class DroneStatusWatcher {
 
     @Autowired
     private DroneService droneService;
+
+    @Autowired
+    private MedicationService medicationService;
 
     /***
      * Cron that updates drones status periodically.
@@ -34,6 +39,12 @@ public class DroneStatusWatcher {
                         logService.logMessage("Drone %s state is %s".formatted(drone.getSerialNumber(), drone.getState()));
                     }
                 } else if (state != State.IDLE) {
+//                    if state is delivered empty drone medications
+                    if (state == State.DELIVERED) {
+                        for (Medication medication : drone.getMedicationList()) {
+                            medicationService.delete(medication);
+                        }
+                    }
                     drone.setState(state.next());
                     droneService.save(drone);
                     logService.logMessage("Drone %s state is %s".formatted(drone.getSerialNumber(), drone.getState()));

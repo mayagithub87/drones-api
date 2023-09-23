@@ -30,4 +30,13 @@ public class Medication {
     @JoinColumn(name = "droneid", nullable = false)
     private Drone drone;
 
+    public Medication() {
+    }
+
+    public Medication(String name, float weight, String code, byte[] image) {
+        this.name = name;
+        this.weight = weight;
+        this.code = code;
+        this.image = image;
+    }
 }
