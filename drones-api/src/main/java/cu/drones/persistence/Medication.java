@@ -16,7 +16,6 @@ public class Medication {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long medid;
     @NotBlank(message = "Name is mandatory")
-    @Column(unique = true)
     @Pattern(regexp = "(\\w|-|_)*$")
     private String name;//allowed only letters, numbers, ‘-‘, ‘_’
     @Positive
